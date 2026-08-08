@@ -85,11 +85,12 @@ function MiniRunnerGame({ onClose }: { onClose: () => void }) {
       });
 
       setObstacleX((currentX) => {
-        const speed = 5 + Math.min(3, scoreRef.current / 20);
+        const speed = Math.min(13, 5 + scoreRef.current * 0.18);
         let nextX = currentX - speed;
         if (nextX < -obstacleWidth) {
           const nextObstacle = nextCakeObstacle();
-          nextX = AREA_WIDTH + Math.random() * 100;
+          const gap = Math.max(45, 130 - scoreRef.current * 1.6);
+          nextX = AREA_WIDTH + gap + Math.random() * 70;
           setObstacleKind(nextObstacle.kind);
           setObstacleWidth(nextObstacle.width);
           setObstacleHeight(nextObstacle.height);
@@ -147,16 +148,23 @@ function MiniRunnerGame({ onClose }: { onClose: () => void }) {
             Close
           </button>
         </div>
-        <p className="mini-game-help">Press Space or tap Jump. Hop over the bake sale cakes.</p>
+        <p className="mini-game-help">Press Space or tap Jump. Hop over the colourful bake sale cakes!</p>
 
         <div className="mini-game-arena" onClick={jump}>
           <div className="mini-game-sky" />
+          <div className="mini-game-bunting" />
           <div className="mini-game-grid" />
           <div className="mini-game-horizon" />
           <div
-            className="mini-game-runner"
+            className={`mini-game-runner${runnerY < AREA_HEIGHT - GROUND_HEIGHT - RUNNER_SIZE - 1 ? ' is-airborne' : ''}${isRunning ? ' is-running' : ''}`}
             style={{ left: `${RUNNER_X}px`, top: `${runnerY}px`, width: `${RUNNER_SIZE}px`, height: `${RUNNER_SIZE}px` }}
-          />
+          >
+            <span className="mini-game-runner-cheek mini-game-runner-cheek-left" />
+            <span className="mini-game-runner-cheek mini-game-runner-cheek-right" />
+            <span className="mini-game-runner-eye mini-game-runner-eye-left" />
+            <span className="mini-game-runner-eye mini-game-runner-eye-right" />
+            <span className="mini-game-runner-mouth" />
+          </div>
           <div
             className={`mini-game-obstacle mini-game-obstacle-${obstacleKind}`}
             style={{ left: `${obstacleX}px`, top: `${AREA_HEIGHT - GROUND_HEIGHT - obstacleHeight}px`, width: `${obstacleWidth}px`, height: `${obstacleHeight}px` }}

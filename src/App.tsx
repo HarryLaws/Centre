@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import SiteHeader from './components/SiteHeader';
+import EditableText from './components/EditableText';
+import { useAppState } from './context/AppContext';
+import { useContentState } from './context/ContentContext';
 import HomePage from './pages/HomePage';
 import NewsPage from './pages/CounterPage';
 import BookingPage from './pages/BookingPage';
@@ -137,6 +140,26 @@ function SeoManager() {
   return null;
 }
 
+function EditModeToggle() {
+  const { isAdmin } = useAppState();
+  const { editMode, toggleEditMode } = useContentState();
+
+  if (!isAdmin) {
+    return null;
+  }
+
+  return (
+    <button
+      type="button"
+      className={`edit-mode-toggle${editMode ? ' is-active' : ''}`}
+      onClick={toggleEditMode}
+      title={editMode ? 'Turn off editing to browse normally' : 'Turn on editing to change text and images'}
+    >
+      {editMode ? '✓ Editing site' : '✏️ Edit this site'}
+    </button>
+  );
+}
+
 function App() {
   return (
     <div className="app">
@@ -158,8 +181,9 @@ function App() {
           </Routes>
         </main>
         <footer className="site-footer">
-          Tanfield Lea Rd, Tanfield Lea, Stanley DH9 9NL
+          <EditableText id="footer.address" as="span" defaultValue="Tanfield Lea Rd, Tanfield Lea, Stanley DH9 9NL" />
         </footer>
+        <EditModeToggle />
       </BrowserRouter>
     </div>
   );

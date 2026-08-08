@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NewsItem, newsItems as defaultNewsItems } from '../data/news';
 import homeHero from '../assets/home-hero.jpg';
+import EditableText from '../components/EditableText';
+import EditableImage from '../components/EditableImage';
 
 export default function HomePage() {
   const [latestNews, setLatestNews] = useState<NewsItem[]>([]);
@@ -17,24 +19,37 @@ export default function HomePage() {
     <section className="page page-home">
       <div className="home-hero">
         <div className="hero-copy">
-          <h1>Tanfield Lea Community Centre</h1>
-          <p>
-            A warm and welcoming place for neighbours, groups, and local leaders.
-            Explore classes, events, and space bookings for your next Tanfield Lea
-            Community Centre gathering.
-          </p>
+          <EditableText id="home.hero.title" as="h1" defaultValue="Tanfield Lea Community Centre" />
+          <EditableText
+            id="home.hero.description"
+            as="p"
+            multiline
+            defaultValue="A warm and welcoming place for neighbours, groups, and local leaders. Explore classes, events, and space bookings for your next Tanfield Lea Community Centre gathering."
+          />
           <div className="hero-features">
             <div>
-              <h3>Flexible spaces</h3>
-              <p>Meeting rooms, activity studios, and a full hall are available for hire.</p>
+              <EditableText id="home.feature1.title" as="h3" defaultValue="Flexible spaces" />
+              <EditableText
+                id="home.feature1.body"
+                as="p"
+                defaultValue="Meeting rooms, activity studios, and a full hall are available for hire."
+              />
             </div>
             <div>
-              <h3>Friendly staff</h3>
-              <p>Our team helps with event planning, room setup, and community outreach.</p>
+              <EditableText id="home.feature2.title" as="h3" defaultValue="Friendly staff" />
+              <EditableText
+                id="home.feature2.body"
+                as="p"
+                defaultValue="Our team helps with event planning, room setup, and community outreach."
+              />
             </div>
             <div>
-              <h3>Regular programs</h3>
-              <p>Join youth clubs, fitness classes, volunteer days, and local socials.</p>
+              <EditableText id="home.feature3.title" as="h3" defaultValue="Regular programs" />
+              <EditableText
+                id="home.feature3.body"
+                as="p"
+                defaultValue="Join youth clubs, fitness classes, volunteer days, and local socials."
+              />
             </div>
           </div>
           <div className="hero-actions">
@@ -48,14 +63,15 @@ export default function HomePage() {
         </div>
 
         <div className="hero-image-card">
-          <img
-            src={homeHero}
-            alt="Community centre building"
-          />
+          <EditableImage id="home.hero.image" defaultSrc={homeHero} alt="Community centre building" />
           <div className="hero-image-text">
             <p className="eyebrow">Featured space</p>
-            <h2>Community Hall</h2>
-            <p>Bright, accessible, and perfect for workshops, meetings, and socials.</p>
+            <EditableText id="home.hero.imageTitle" as="h2" defaultValue="Community Hall" />
+            <EditableText
+              id="home.hero.imageBody"
+              as="p"
+              defaultValue="Bright, accessible, and perfect for workshops, meetings, and socials."
+            />
           </div>
         </div>
       </div>
@@ -86,14 +102,20 @@ export default function HomePage() {
         <div className="home-contact-card">
           <div>
             <p className="eyebrow">Visit us</p>
-            <h2>Tanfield Lea Community Centre</h2>
-            <p>Tanfield Lea Rd, Tanfield Lea, Stanley DH9 9NL</p>
+            <EditableText id="home.contact.title" as="h2" defaultValue="Tanfield Lea Community Centre" />
+            <EditableText id="home.contact.address" as="p" defaultValue="Tanfield Lea Rd, Tanfield Lea, Stanley DH9 9NL" />
             <div className="opening-hours">
               <p className="eyebrow">Opening hours</p>
               <ul>
-                <li>Monday – Friday: 9:00 AM – 8:00 PM</li>
-                <li>Saturday: 9:00 AM – 5:00 PM</li>
-                <li>Sunday: Closed</li>
+                <li>
+                  <EditableText id="home.hours.weekday" defaultValue="Monday – Friday: 9:00 AM – 8:00 PM" />
+                </li>
+                <li>
+                  <EditableText id="home.hours.saturday" defaultValue="Saturday: 9:00 AM – 5:00 PM" />
+                </li>
+                <li>
+                  <EditableText id="home.hours.sunday" defaultValue="Sunday: Closed" />
+                </li>
               </ul>
             </div>
           </div>

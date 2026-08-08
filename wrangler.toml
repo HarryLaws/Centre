@@ -5,3 +5,11 @@ compatibility_date = "2026-08-08"
 [assets]
 directory = "./dist"
 not_found_handling = "single-page-application"
+
+[[kv_namespaces]]
+binding = "STAFF_ACCOUNTS_KV"
+id = "b30d4ee0989d44f3a79178430dc68bba"
+
+[[kv_namespaces]]
+binding = "SITE_CONTENT_KV"
+id = "652bc0ca02024bfd9bc356aa978e9ec5"

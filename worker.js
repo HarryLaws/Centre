@@ -1,8 +1,12 @@
 const SESSION_COOKIE = 'staff_session';
 const SESSION_MAX_AGE_SECONDS = 8 * 60 * 60;
 const ACCOUNTS_KV_KEY = 'staff-accounts';
+const CONTENT_KV_KEY = 'site-content';
+const MAX_CONTENT_VALUE_LENGTH = 4 * 1024 * 1024; // ~4MB per field (covers small-to-medium images)
+const MAX_CONTENT_KEYS_PER_UPDATE = 40;
 
 let inMemoryAccounts = null;
+let inMemoryContent = null;
 
 function json(data, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(data), {
@@ -165,6 +169,31 @@ async function saveAccounts(env, accounts) {
   const kv = env.STAFF_ACCOUNTS_KV;
   if (kv && typeof kv.put === 'function') {
     await kv.put(ACCOUNTS_KV_KEY, JSON.stringify(accounts));
+  }
+}
+
+function getContentKv(env) {
+  // Prefer a dedicated binding, but fall back to the staff accounts KV namespace
+  // (under a different key) so a single KV namespace can cover both needs.
+  return env.SITE_CONTENT_KV || env.STAFF_ACCOUNTS_KV || null;
+}
+
+async function loadContent(env) {
+  const kv = getContentKv(env);
+  if (kv && typeof kv.get === 'function') {
+    const fromKv = await kv.get(CONTENT_KV_KEY, 'json');
+    if (fromKv && typeof fromKv === 'object') {
+      return fromKv;
+    }
+  }
+  return inMemoryContent && typeof inMemoryContent === 'object' ? inMemoryContent : {};
+}
+
+async function saveContent(env, content) {
+  inMemoryContent = content;
+  const kv = getContentKv(env);
+  if (kv && typeof kv.put === 'function') {
+    await kv.put(CONTENT_KV_KEY, JSON.stringify(content));
   }
 }
 
@@ -350,6 +379,72 @@ async function handleApi(request, env) {
     const updated = accounts.filter((item) => item.username !== username);
     await saveAccounts(env, updated);
     return json({ success: true, accounts: sanitizeAccounts(updated) });
+  }
+
+  if (pathname === '/api/content' && request.method === 'GET') {
+    const content = await loadContent(env);
+    return json({ content });
+  }
+
+  if (pathname === '/api/content' && request.method === 'PUT') {
+    const authError = await requireAdmin(context);
+    if (authError) {
+      return authError;
+    }
+
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return json({ error: 'Invalid JSON body.' }, 400);
+    }
+
+    const updates = body?.updates;
+    if (!updates || typeof updates !== 'object' || Array.isArray(updates)) {
+      return json({ error: 'Missing content updates.' }, 400);
+    }
+
+    const keys = Object.keys(updates);
+    if (keys.length === 0) {
+      return json({ error: 'No content updates provided.' }, 400);
+    }
+    if (keys.length > MAX_CONTENT_KEYS_PER_UPDATE) {
+      return json({ error: `Cannot update more than ${MAX_CONTENT_KEYS_PER_UPDATE} fields at once.` }, 400);
+    }
+
+    for (const key of keys) {
+      const value = updates[key];
+      if (typeof value !== 'string') {
+        return json({ error: `Value for "${key}" must be a string.` }, 400);
+      }
+      if (value.length > MAX_CONTENT_VALUE_LENGTH) {
+        return json({ error: `Value for "${key}" is too large.` }, 413);
+      }
+    }
+
+    const content = await loadContent(env);
+    const merged = { ...content, ...updates };
+    await saveContent(env, merged);
+    return json({ success: true, content: merged });
+  }
+
+  if (pathname.startsWith('/api/content/') && request.method === 'DELETE') {
+    const authError = await requireAdmin(context);
+    if (authError) {
+      return authError;
+    }
+
+    const key = decodeURIComponent(pathname.replace('/api/content/', ''));
+    if (!key) {
+      return json({ error: 'Content key is required.' }, 400);
+    }
+
+    const content = await loadContent(env);
+    if (Object.prototype.hasOwnProperty.call(content, key)) {
+      delete content[key];
+      await saveContent(env, content);
+    }
+    return json({ success: true, content });
   }
 
   if (pathname.startsWith('/api/')) {

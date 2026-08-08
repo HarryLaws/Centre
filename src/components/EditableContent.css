@@ -1,0 +1,198 @@
+.editable-field {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  max-width: 100%;
+}
+
+.editable-field > * {
+  min-width: 0;
+}
+
+.editable-pencil {
+  flex-shrink: 0;
+  border: none;
+  background: rgba(91, 121, 255, 0.14);
+  color: inherit;
+  border-radius: 0.5rem;
+  width: 1.9rem;
+  height: 1.9rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  align-self: center;
+}
+
+.editable-pencil:hover {
+  opacity: 1;
+  background: rgba(91, 121, 255, 0.28);
+  transform: scale(1.05);
+}
+
+.editable-pencil-active {
+  opacity: 0.9;
+  box-shadow: 0 0 0 2px rgba(91, 121, 255, 0.4);
+}
+
+.editable-field-active {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  gap: 0.5rem;
+  background: rgba(91, 121, 255, 0.08);
+  border: 1px solid rgba(91, 121, 255, 0.35);
+  border-radius: 0.75rem;
+  padding: 0.6rem;
+}
+
+.editable-input {
+  width: 100%;
+  border: 1.5px solid rgba(91, 121, 255, 0.5);
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  color: var(--text-color);
+  background: rgba(255, 255, 255, 0.04);
+  resize: vertical;
+}
+
+.editable-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editable-save,
+.editable-cancel {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.editable-save {
+  background: var(--accent, #5b79ff);
+  color: #ffffff;
+}
+
+.editable-save:disabled,
+.editable-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.editable-cancel {
+  background: rgba(127, 127, 127, 0.18);
+  color: var(--text-color);
+}
+
+.editable-error {
+  color: #f87171;
+  font-size: 0.82rem;
+}
+
+.editable-error-block {
+  margin: 0.4rem 0 0;
+}
+
+.editable-image {
+  position: relative;
+  display: block;
+}
+
+.editable-image img {
+  display: block;
+  width: 100%;
+}
+
+.editable-image-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: rgba(15, 17, 32, 0.45);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  border-radius: inherit;
+}
+
+.editable-image:hover .editable-image-overlay {
+  opacity: 1;
+}
+
+.editable-image-button {
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.55rem 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: var(--accent, #5b79ff);
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.editable-image-button.secondary {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.editable-image-input {
+  display: none;
+}
+
+.editable-image-confirm {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(15, 17, 32, 0.85);
+  padding: 0.5rem;
+  border-radius: 0.7rem;
+}
+
+/* Floating edit-mode toggle for admins */
+.edit-mode-toggle {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 80;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.8rem 1.3rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(135deg, rgba(148, 163, 184, 0.95), rgba(100, 116, 139, 0.95));
+  color: #ffffff;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.edit-mode-toggle:hover {
+  transform: translateY(-2px);
+}
+
+.edit-mode-toggle.is-active {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.95), rgba(16, 185, 129, 0.95));
+}
+
+@media (max-width: 640px) {
+  .edit-mode-toggle {
+    right: 1rem;
+    bottom: 1rem;
+    padding: 0.7rem 1.05rem;
+    font-size: 0.82rem;
+  }
+}
