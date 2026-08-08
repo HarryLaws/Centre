@@ -1,8 +1,10 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
+export type StaffLoginResult = 'success' | 'invalid-credentials' | 'api-unavailable';
+
 type AppState = {
   isStaff: boolean;
-  loginStaff: (username: string, password: string) => Promise<boolean>;
+  loginStaff: (username: string, password: string) => Promise<StaffLoginResult>;
   logoutStaff: () => Promise<void>;
 };
 
@@ -52,14 +54,27 @@ export function AppProvider({ children }: AppProviderProps) {
       });
 
       if (!response.ok) {
-        return false;
+        if (response.status === 401) {
+          return 'invalid-credentials';
+        }
+        return 'api-unavailable';
+      }
+
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        return 'api-unavailable';
+      }
+
+      const data = await response.json();
+      if (data?.success === false) {
+        return 'invalid-credentials';
       }
 
       setIsStaff(true);
       window.localStorage.setItem(STAFF_STORAGE_KEY, 'true');
-      return true;
+      return 'success';
     } catch {
-      return false;
+      return 'api-unavailable';
     }
   };
 
