@@ -5,7 +5,7 @@ const SITE_URL =
   process.env.SITE_URL ||
   process.env.CF_PAGES_URL ||
   process.env.URL ||
-  'https://example.com';
+  'https://tanfieldleacommunitycentre.com';
 
 const normalizedSiteUrl = SITE_URL.replace(/\/$/, '');
 
@@ -39,8 +39,6 @@ await writeFile(robotsPath, robots, 'utf8');
 console.log(`Generated sitemap: ${outputPath}`);
 console.log(`Generated robots: ${robotsPath}`);
 console.log(`Using site URL: ${normalizedSiteUrl}`);
-if (normalizedSiteUrl === 'https://example.com') {
-  console.warn(
-    'SITE_URL was not set. Set SITE_URL in deployment settings to your live domain for best SEO.'
-  );
+if (!process.env.SITE_URL) {
+  console.warn('SITE_URL is not set. Falling back to default/live domain in generator.');
 }
