@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "server": "node server.js",
-    "dev:all": "concurrently "vite" "npm run server"",
+    "dev:all": "concurrently \"vite\" \"npm run server\"",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
@@ -29,3 +29,4 @@
     "vite": "^6.0.0"
   }
 }
+
