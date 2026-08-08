@@ -80,50 +80,50 @@ export default function StaffDashboardPage() {
       </div>
 
       <form className="booking-form" onSubmit={handleSubmit}>
-        <div className="form-grid">
-          <label>
-            Title
-            <input value={title} onChange={(event) => setTitle(event.target.value)} required />
-          </label>
-          <label>
-            Publish date
-            <input
-              type="date"
-              value={date}
-              onChange={(event) => setDate(event.target.value)}
-              required
-            />
-          </label>
-          <label>
-            Summary
-            <input value={summary} onChange={(event) => setSummary(event.target.value)} required />
-          </label>
-          <label>
-            Image attachment
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-          </label>
-        </div>
+            <div className="form-grid">
+              <label>
+                Title
+                <input value={title} onChange={(event) => setTitle(event.target.value)} required />
+              </label>
+              <label>
+                Publish date
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(event) => setDate(event.target.value)}
+                  required
+                />
+              </label>
+              <label>
+                Summary
+                <input value={summary} onChange={(event) => setSummary(event.target.value)} required />
+              </label>
+              <label>
+                Image attachment
+                <input type="file" accept="image/*" onChange={handleImageChange} />
+              </label>
+            </div>
 
-        <label>
-          Main text
-          <textarea value={details} onChange={(event) => setDetails(event.target.value)} rows={6} />
-        </label>
+            <label>
+              Main text
+              <textarea value={details} onChange={(event) => setDetails(event.target.value)} rows={6} />
+            </label>
 
-        {image && (
-          <div className="image-preview">
-            <p>Preview</p>
-            <img src={image} alt="News preview" />
-          </div>
-        )}
+            {image && (
+              <div className="image-preview">
+                <p>Preview</p>
+                <img src={image} alt="News preview" />
+              </div>
+            )}
 
-        {error && <p className="booking-note error">{error}</p>}
+            {error && <p className="booking-note error">{error}</p>}
 
-        <div className="form-footer">
-          <button className="button" type="submit">
-            Publish news
-          </button>
-        </div>
-      </form>
+            <div className="form-footer">
+              <button className="button" type="submit">
+                Publish news
+              </button>
+            </div>
+          </form>
 
       <div className="news-grid">
         {items.map((item) => (

@@ -177,7 +177,7 @@ function MiniRunnerGame({ onClose }: { onClose: () => void }) {
 }
 
 export default function SiteHeader() {
-  const { isStaff, logoutStaff } = useAppState();
+  const { isStaff, isAdmin, logoutStaff } = useAppState();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [brandTapCount, setBrandTapCount] = useState(0);
@@ -270,22 +270,29 @@ export default function SiteHeader() {
               </>
             )}
           </nav>
-          {!isStaff ? (
-            <button
-              type="button"
-              className="button secondary"
-              onClick={() => {
-                navigate('/staff');
-                closeMenu();
-              }}
-            >
-              Staff login
-            </button>
-          ) : (
-            <button type="button" className="button secondary" onClick={handleLogout}>
-              Log out
-            </button>
-          )}
+          <div className="nav-actions">
+            {isAdmin && (
+              <NavLink to="/staff/admin" className="button admin-button" onClick={closeMenu}>
+                Admin
+              </NavLink>
+            )}
+            {!isStaff ? (
+              <button
+                type="button"
+                className="button secondary"
+                onClick={() => {
+                  navigate('/staff');
+                  closeMenu();
+                }}
+              >
+                Staff login
+              </button>
+            ) : (
+              <button type="button" className="button secondary" onClick={handleLogout}>
+                Log out
+              </button>
+            )}
+          </div>
         </div>
       </header>
       {showMiniGame && <MiniRunnerGame onClose={() => setShowMiniGame(false)} />}
