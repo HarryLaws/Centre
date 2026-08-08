@@ -15,11 +15,15 @@ export default function StaffLoginPage() {
     setError('');
     setIsSubmitting(true);
 
-    const success = await loginStaff(username.trim(), password.trim());
-    if (success) {
+    const result = await loginStaff(username.trim(), password.trim());
+    if (result === 'success') {
       navigate('/staff/dashboard');
     } else {
-      setError('Invalid staff credentials or auth server unavailable.');
+      setError(
+        result === 'api-unavailable'
+          ? 'Staff login is temporarily unavailable. The website API is not responding correctly right now.'
+          : 'Invalid staff credentials. Please check your username and password.'
+      );
     }
     setIsSubmitting(false);
   };
