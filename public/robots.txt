@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Keep staff/admin screens out of search results
+Disallow: /staff
+Disallow: /staff/
+Disallow: /staff/dashboard
+Disallow: /staff/requests
+Disallow: /staff/calendar
