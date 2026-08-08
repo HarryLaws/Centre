@@ -1,0 +1,59 @@
+[
+  {
+    "id": "backup-1785077880618",
+    "name": "Test User 3",
+    "email": "test3@example.com",
+    "phone": "555-0003",
+    "eventType": "Test Event 3",
+    "eventDate": "2026-08-03",
+    "attendees": "6",
+    "notes": "Automated test 3",
+    "createdAt": "2026-07-26T14:58:00.618Z"
+  },
+  {
+    "id": "backup-1785078225275",
+    "name": "BC Test",
+    "email": "bctest@example.com",
+    "phone": "555-9999",
+    "eventType": "Test",
+    "eventDate": "2026-08-05",
+    "attendees": "2",
+    "notes": "powershell test",
+    "createdAt": "2026-07-26T15:03:45.275Z"
+  },
+  {
+    "id": "backup-1785094524432",
+    "name": "HArry ",
+    "email": "harry@harry.com",
+    "phone": "000000",
+    "eventType": "party",
+    "eventDate": "2026-07-30",
+    "attendees": "12",
+    "notes": "fkerjbgkjerg",
+    "createdAt": "2026-07-26T19:35:24.432Z"
+  },
+  {
+    "id": "backup-1785094940591",
+    "name": "Harry Laws",
+    "email": "harrylaws3@gmail.com",
+    "phone": "07923133767",
+    "eventType": "Book Club",
+    "eventDate": "2026-08-05",
+    "attendees": "12-20",
+    "notes": "Hello, I was looking to set up a book club, please would someone be able to contact me regarding this. Many thanks, Harry ",
+    "createdAt": "2026-07-26T19:42:20.591Z"
+  },
+  {
+    "id": "backup-1785587691188",
+    "name": "Harry ",
+    "email": "harry@laws.com",
+    "phone": "00000",
+    "eventType": "PAty",
+    "eventDate": "2026-08-25",
+    "proposedStartTime": "07:00",
+    "proposedEndTime": "08:30",
+    "attendees": "12",
+    "notes": "kjhlkug",
+    "createdAt": "2026-08-01T12:34:51.188Z"
+  }
+]
