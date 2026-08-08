@@ -6,7 +6,8 @@
     "dev": "vite",
     "server": "node server.js",
     "dev:all": "concurrently \"vite\" \"npm run server\"",
-    "build": "tsc && vite build",
+    "seo:sitemap": "node scripts/generate-sitemap.mjs",
+    "build": "npm run seo:sitemap && tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -29,4 +30,3 @@
     "vite": "^6.0.0"
   }
 }
-
