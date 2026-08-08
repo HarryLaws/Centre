@@ -4,6 +4,8 @@ export type StaffLoginResult = 'success' | 'invalid-credentials' | 'api-unavaila
 
 type AppState = {
   isStaff: boolean;
+  isAdmin: boolean;
+  staffUsername: string | null;
   loginStaff: (username: string, password: string) => Promise<StaffLoginResult>;
   logoutStaff: () => Promise<void>;
 };
@@ -24,6 +26,8 @@ export function AppProvider({ children }: AppProviderProps) {
       return false;
     }
   });
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [staffUsername, setStaffUsername] = useState<string | null>(null);
 
   useEffect(() => {
     const syncSession = async () => {
@@ -32,9 +36,13 @@ export function AppProvider({ children }: AppProviderProps) {
         const data = await response.json();
         if (data?.isStaff) {
           setIsStaff(true);
+          setIsAdmin(Boolean(data?.isAdmin));
+          setStaffUsername(typeof data?.username === 'string' ? data.username : null);
           window.localStorage.setItem(STAFF_STORAGE_KEY, 'true');
         } else {
           setIsStaff(false);
+          setIsAdmin(false);
+          setStaffUsername(null);
           window.localStorage.removeItem(STAFF_STORAGE_KEY);
         }
       } catch {
@@ -71,6 +79,8 @@ export function AppProvider({ children }: AppProviderProps) {
       }
 
       setIsStaff(true);
+      setIsAdmin(Boolean(data?.isAdmin));
+      setStaffUsername(typeof data?.username === 'string' ? data.username : username);
       window.localStorage.setItem(STAFF_STORAGE_KEY, 'true');
       return 'success';
     } catch {
@@ -85,11 +95,13 @@ export function AppProvider({ children }: AppProviderProps) {
       // Clear local state even if server logout fails.
     }
     setIsStaff(false);
+    setIsAdmin(false);
+    setStaffUsername(null);
     window.localStorage.removeItem(STAFF_STORAGE_KEY);
   };
 
   return (
-    <AppContext.Provider value={{ isStaff, loginStaff, logoutStaff }}>
+    <AppContext.Provider value={{ isStaff, isAdmin, staffUsername, loginStaff, logoutStaff }}>
       {children}
     </AppContext.Provider>
   );
